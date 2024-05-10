@@ -13,7 +13,6 @@
     //* Modules
     "module": "ESNext",
     "moduleResolution": "Bundler",
-    "paths": { "@/*": ["./src/*"] },
     "rootDir": "./src",
 
     //* Emit

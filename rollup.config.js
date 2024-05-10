@@ -4,10 +4,8 @@ import eslint from '@rollup/plugin-eslint';
 import { defineConfig } from 'rollup';
 import { defineRollupSwcOption, swc } from 'rollup-plugin-swc3';
 
-export default [true, false].map((isDev) => {
-  const env = isDev ? 'development' : 'production';
-
-  return defineConfig({
+export default [true, false].map((isDev) =>
+  defineConfig({
     input: './src/index.ts',
 
     plugins: [
@@ -19,6 +17,7 @@ export default [true, false].map((isDev) => {
           sourceMaps: true,
 
           jsc: {
+            transform: { useDefineForClassFields: false },
             minify: { compress: !isDev, mangle: !isDev, sourceMap: true },
           },
         }),
@@ -26,9 +25,9 @@ export default [true, false].map((isDev) => {
     ],
 
     output: {
-      file: `./dist/index.${env}.js`,
+      file: `./dist/index.${isDev ? 'development' : 'production'}.js`,
       format: 'esm',
       sourcemap: true,
     },
-  });
-});
+  }),
+);
