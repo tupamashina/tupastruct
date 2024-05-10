@@ -32,9 +32,21 @@ export function validate<T, S>(
   const result = generator.next();
 
   if (result.done) {
-    if (!result.value) throw new Error('Validation failed with no issues');
-    return [null, result.value.value as T];
+    if (result.value) return [null, result.value[0]];
+    throw new Error('Validation failed with no issues');
   }
 
   return [new StructError(result.value, generator), null];
+}
+
+export function is<T, S>(struct: Struct<T, S>, value: unknown): value is T {
+  return !validate(struct, value)[0];
+}
+
+export function assert<T, S>(
+  struct: Struct<T, S>,
+  value: unknown,
+): asserts value is T {
+  const [error] = validate(struct, value);
+  if (error) throw error;
 }

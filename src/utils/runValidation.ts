@@ -10,5 +10,5 @@ export function* runValidation<T, S>(struct: Struct<T, S>, value: unknown) {
     yield issue;
   }
 
-  if (isValid) return { value };
+  if (isValid) return [value as T] as const;
 }
